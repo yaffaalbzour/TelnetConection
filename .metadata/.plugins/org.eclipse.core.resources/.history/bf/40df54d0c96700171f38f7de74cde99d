@@ -1,0 +1,24 @@
+import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
+
+public class TelnetConnectionTesting {
+	//Receive the parameters from man class and send them to the GetPassword() method
+	public void SendPasswd() {
+		
+	}
+	public static String  getOutputFromDevice(String server , String command) {
+		String output=null;
+		return output;
+	}
+	@DataProvider
+	public static Object[] provideCommand() {
+		return new Object[] {"show version"};
+	}
+	@Test(dataProvider = "provideCommand")
+	public void startConnection(String command) {
+		//DeviceRemoteConnection.main(command);
+		
+		String output = getOutputFromDevice("10.63.10.222",command);
+		System.out.println(output);
+	}
+}

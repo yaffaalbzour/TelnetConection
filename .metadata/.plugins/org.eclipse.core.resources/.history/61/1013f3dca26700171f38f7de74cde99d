@@ -1,0 +1,11 @@
+import org.testng.annotations.Test;
+import org.testng.annotations.Parameters;
+
+public class TelnetConnectionTesting {
+	@Test
+	@Parameters("command")
+	public void connectToDevice(String command) {
+		DeviceRemoteConnection newConnection = new DeviceRemoteConnection();
+		newConnection.main(command);
+	}
+}

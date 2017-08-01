@@ -1,0 +1,14 @@
+import org.testng.annotations.Test;
+import org.testng.annotations.Parameters;
+
+public class MyFirstExample {
+@Test
+@Parameters("Message")
+public void Test1print(String Message) {
+	System.out.println("test1 : " + Message );
+}
+@Test (dependsOnMethods = { "Test1print"})
+public void Test2print() {
+	System.out.println();
+}
+}

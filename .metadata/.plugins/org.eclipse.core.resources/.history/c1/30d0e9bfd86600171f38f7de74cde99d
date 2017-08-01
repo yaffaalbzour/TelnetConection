@@ -1,0 +1,26 @@
+import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
+
+public class MyFirstExample {
+@Test
+@Parameters("Test1Msg")
+public void Test1print(String Test1Msg) {
+	
+	try {
+		System.out.println("test1 : " + Test1Msg );
+		//sleep 5 seconds
+		Thread.sleep(5000);
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+}
+@DataProvider(name="Test2Msg")
+public void MessageProvider() {
+	
+}
+@Test (dependsOnMethods = { "Test1print"}, dataProvider = "test2Msg")
+public void Test2print() {
+	System.out.println();
+}
+}

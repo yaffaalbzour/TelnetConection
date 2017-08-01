@@ -1,0 +1,39 @@
+import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
+
+public class MyFirstExample {
+@Test
+@Parameters("Test1Msg")
+public void Test1print(String Test1Msg) {
+	try {
+		System.out.println("test1 : " + Test1Msg );
+		//sleep 5 seconds
+		Thread.sleep(5000);
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+}
+
+@DataProvider(name = "MessageProvider")
+public static Object[] MessageProvider() {
+   return new Object[] {"Bye bye"};
+}
+
+// This test will run a string object from the provider 
+@Test(dependsOnMethods = { "Test1print"},dataProvider = "MessageProvider")
+public void test2Print(String Test2Msg) {
+   System.out.println("test2 : "+ Test2Msg );
+}
+
+/*
+@DataProvider(name=" MessageProvider")
+public static String MessageProvider() {
+	return  "Bye bye";
+}
+@Test (dependsOnMethods = { "Test1print"}, dataProvider = "MessageProvider")
+public void Test2print(String B) {
+	System.out.println("test2 : " + B);
+}
+*/
+}

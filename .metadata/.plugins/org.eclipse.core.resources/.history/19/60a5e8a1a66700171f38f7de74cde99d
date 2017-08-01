@@ -1,0 +1,13 @@
+import org.testng.annotations.Test;
+
+import java.io.InputStream;
+
+import org.testng.annotations.Parameters;
+
+public class TelnetConnectionTesting {
+	@Test
+	@Parameters("command")
+	public void connectToDevice(InputStream command) {
+		DeviceRemoteConnection.main(command);
+	}
+}

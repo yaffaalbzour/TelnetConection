@@ -1,0 +1,16 @@
+import org.testng.annotations.Test;
+//import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
+
+public class TelnetConnectionTesting {
+	@Test
+	@Parameters("command")
+	public void connectToDevice() {
+		
+	}
+	@Test(dependsOnMethods = { "TelnetConnectionTesting"})
+	@Parameters("command")
+	public void sendCommand(String command) {
+		
+	}
+}

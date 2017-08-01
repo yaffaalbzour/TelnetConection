@@ -1,0 +1,82 @@
+//import java.io.FileOutputStream;
+//import java.util.StringTokenizer;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import org.apache.commons.net.io.Util;
+import org.apache.commons.net.telnet.TelnetClient;
+
+public class DeviceRemoteConnection {
+    public static void main(String[] args) {
+        TelnetClient telnet;
+        telnet = new TelnetClient();
+        try {
+            telnet.connect("10.63.10.220", 23);
+            byte[] cmd = "en".getBytes();
+            telnet.getOutputStream().write(cmd); 
+            sendEnter(telnet);
+            cmd = "\n".getBytes();
+            telnet.getOutputStream().write(cmd); 
+            telnet.getOutputStream().flush();
+            
+        //    getO
+            
+               
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        //readWrite(telnet.getInputStream(), telnet.getOutputStream(), System.in, System.out);
+       
+    }
+    public static void sendEnter(TelnetClient telnet) {
+    	byte[] cmd = "\n".getBytes();
+         try {
+			telnet.getOutputStream().write(cmd);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+         
+    }
+
+   /* public static final void readWrite(final InputStream remoteInput, final OutputStream remoteOutput,
+                                       final InputStream localInput, final OutputStream localOutput){
+        Thread reader, writer;
+        reader = new Thread(){
+            @Override
+            public void run(){
+                int ch;
+                try{
+                    while (!interrupted() && (ch = localInput.read()) != -1){
+                        remoteOutput.write(ch);
+                        remoteOutput.flush();
+                    }
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        writer = new Thread(){
+            @Override
+            public void run(){
+                try{
+                    Util.copyStream(remoteInput, localOutput);
+                }catch (IOException e){
+                    e.printStackTrace();
+                    System.exit(1);
+                }
+            }
+        };
+        writer.setPriority(Thread.currentThread().getPriority() + 1);
+        writer.start();
+        reader.setDaemon(true);
+        reader.start();
+        try{
+            writer.join();
+            reader.interrupt();
+        }catch (InterruptedException e){
+            // Ignored
+        }
+    }*/
+}

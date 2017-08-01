@@ -1,0 +1,128 @@
+//import java.io.FileOutputStream;
+//import java.util.StringTokenizer;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import org.apache.commons.net.io.Util;
+import org.apache.commons.net.telnet.TelnetClient;
+//import org.testng.annotations.Test;
+//import org.testng.annotations.DataProvider;
+
+public class DeviceRemoteConnection {
+	//@Test
+    public static void  Helo (){
+        TelnetClient telnet= setConnection("10.63.10.222",23);
+        try {
+           
+            byte[] cmd = "en".getBytes();
+            telnet.getOutputStream().write(cmd); 
+            sendEnter(telnet,cmd);
+            setPasswd(telnet,cmd);
+            sendEnter(telnet,cmd);
+            //executecommand(telnet,cmd);
+            sendEnter(telnet,cmd);
+          //  TelnetConnectionTesting.provideCommand(telnet,cmd);
+            telnet.getOutputStream().flush();        
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        readWrite(telnet.getInputStream(), telnet.getOutputStream(), System.in, System.out);
+        try {
+            telnet.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        System.exit(0);
+    }
+	
+    public static TelnetClient setConnection(String IP, int port) {
+    	 TelnetClient telnet;
+         telnet = new TelnetClient();
+         try {
+             telnet.connect(IP, port);
+         } catch (IOException e) {
+             e.printStackTrace();
+             System.exit(1);
+         }
+         return telnet;
+    }
+    public static void sendEnter(TelnetClient telnet,byte[]cmd) {
+    	 cmd = "\n".getBytes();
+         try {
+			telnet.getOutputStream().write(cmd);
+			//telnet.getOutputStream().flush(); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}         
+    }
+	
+
+    public static void setPasswd(TelnetClient telnet,byte[] cmd) {
+    	 cmd = "cisco".getBytes();
+         try {
+			telnet.getOutputStream().write(cmd);
+			//telnet.getOutputStream().flush(); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    
+    }
+	/*@DataProvider
+	public static Object[] sendCommand(TelnetClient telnet,byte[] cmd) {
+		return new Object[] {"show version", (TelnetClient) telnet,(byte[]) cmd};
+	}*/
+    public static void executecommand(TelnetClient telnet,byte[] cmd) {
+   	 cmd = "show version".getBytes();
+        try {
+			telnet.getOutputStream().write(cmd);
+			//telnet.getOutputStream().flush(); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    
+   }
+    public static final void readWrite(final InputStream remoteInput, final OutputStream remoteOutput,
+                                       final InputStream localInput, final OutputStream localOutput){
+        Thread reader, writer;
+        reader = new Thread(){
+            @Override
+            public void run(){
+                int ch;
+                try{
+                    while (!interrupted() && (ch = localInput.read()) != -1){
+                        remoteOutput.write(ch);
+                        remoteOutput.flush();
+                    }
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        writer = new Thread(){
+            @Override
+            public void run(){
+                try{
+                    Util.copyStream(remoteInput, localOutput);
+                }catch (IOException e){
+                    e.printStackTrace();
+                    System.exit(1);
+                }
+            }
+        };
+        String out=localOutput.toString();
+       // writer.setPriority(Thread.currentThread().getPriority() + 1);
+        writer.start();
+        //reader.setDaemon(true);
+        reader.start();
+        try{            System.out.println(out);
+
+            writer.join(70);
+            reader.interrupt();
+        }catch (InterruptedException e){
+            // Ignored
+        }
+    }
+}

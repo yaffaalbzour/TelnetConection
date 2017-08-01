@@ -1,0 +1,10 @@
+import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
+
+ public class TelnetConnectionTesting{
+	 @Test
+	 public void TestConnedtion() {
+		 DeviceRemoteConnection.setConnection("10.63.10.220", 23);
+	}
+ }

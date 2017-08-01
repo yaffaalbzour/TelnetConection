@@ -1,0 +1,14 @@
+import org.testng.annotations.Test;
+
+import java.io.InputStream;
+import org.testng.annotations.DataProvider;
+public class TelnetConnectionTesting {
+	@DataProvider
+	public static Object[] provideCommand() {
+		return new Object[] {"show version"};
+	}
+	@Test(dataProvider = "provideCommand")
+	public void startConnection(InputStream command) {
+		DeviceRemoteConnection.main(command);
+	}
+}

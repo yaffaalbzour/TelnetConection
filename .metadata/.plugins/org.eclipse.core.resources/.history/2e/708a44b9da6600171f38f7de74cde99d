@@ -1,0 +1,40 @@
+import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
+
+public class MyFirstExample {
+@Test
+@Parameters("Test1Msg")
+public void Test1print(String Test1Msg) {
+	
+	try {
+		System.out.println("test1 : " + Test1Msg );
+		//sleep 5 seconds
+		Thread.sleep(5000);
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+}
+
+@DataProvider(name = "MessageProvider")
+public static Object[][] primeNumbers() {
+   return new Object[][] {{2, true}, {6, false}, {19, true}, {22, false}, {23, true}};
+}
+
+// This test will run 4 times since we have 5 parameters defined
+@Test(dataProvider = "MessageProvider")
+public void testPrimeNumberChecker(Integer inputNumber, Boolean expectedResult) {
+   System.out.println(inputNumber + " " + expectedResult);
+}
+
+/*
+@DataProvider(name=" MessageProvider")
+public static Object[][] MessageProvider() {
+	return new Object[][]{ { "Bye","bye"} };
+}
+@Test (dependsOnMethods = { "Test1print"}, dataProvider = "MessageProvider")
+public void Test2print(String B , String b) {
+	System.out.println("test2 : " + B + " " +b);
+}
+*/
+}

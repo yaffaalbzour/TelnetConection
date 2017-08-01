@@ -1,0 +1,25 @@
+import org.testng.annotations.Test;
+import org.apache.commons.net.telnet.TelnetClient;
+import org.testng.annotations.DataProvider;
+
+public class TelnetConnectionTesting {
+	//Receive the parameters from man class and send them to the GetPassword() method
+	@DataProvider
+	public static Object[] provideCommand(TelnetClient telnet,byte[]cmd) {
+		return new Object[] {"show version",(TelnetClient) telnet,(byte[])cmd};
+	}
+	@Test(dataProvider = "provideCommand")
+	public void startConnection(TelnetClient telnet,byte[]cmd,String command) {
+		String output = DeviceRemoteConnection.sendcommand((TelnetClient)telnet,(byte[])cmd,command);
+		System.out.println(output);
+	}	
+	/*public void SendPasswd() {
+		
+	}
+	public static String  getOutputFromDevice(String server , String command) {
+		String output=null;
+		return output;
+	}
+	
+*/
+}
